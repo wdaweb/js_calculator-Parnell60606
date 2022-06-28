@@ -1,0 +1,279 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet">
+    <style>
+      * {
+        /* box-sizing: border-box; */
+        font-family: 'Montserrat', sans-serif, 'Noto Sans TC';
+        font-size: 1.2rem;
+        font-weight: 300;
+        padding: 0;
+        margin: 0;
+      }
+
+      .container {
+        width: 100vw;
+        height: 100vh;
+        background: rgb(16, 46, 70);
+
+      }
+
+      table {
+        text-align: center;
+        border-spacing: 3px;
+      }
+
+      td {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, .1);
+
+      }
+
+      .calculator {
+        width: 292px;
+        height: 519px;
+        color: white;
+        border: 1px solid #80d0c745;
+      }
+
+      .calculator-color {
+        background-image: linear-gradient(-30deg, #13547a, #80d0c7);
+        box-shadow: 0 0 10px 1px #bbeef34f;
+      }
+
+
+      .firstsecond-hight {
+        height: 30px;
+      }
+
+      .TOP {
+        display: inline-block;
+        width: 292px;
+        text-align: right;
+        position: relative;
+        top: 25px;
+        right: 15px;
+      }
+
+      .TOP:nth-child(1) {
+        text-align: center;
+        top: 5px;
+        right: 0px;
+      }
+
+      .font-size-ten {
+        font-size: 10px;
+        font-weight: 300;
+      }
+
+      .font-size-twenty {
+        font-size: 20px;
+      }
+
+      .formula {
+        height: 80px;
+        font-size: 2rem;
+        font-weight: 400;
+        top: 20px;
+
+        overflow: auto;
+
+      }
+
+      .answer {
+        overflow: auto;
+      }
+
+      .center {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+
+      td:hover {
+        background: #bbeef34f;
+      }
+
+      td:active {
+        background: #13547a2c;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* 網頁卷軸設定 (Chrome  Safari) ----------------------------------- */
+      /* 整個捲軸 */
+      ::-webkit-scrollbar {
+        height: 5px;
+        width: 5px;
+      }
+
+      /* 捲軸的軌道 */
+      ::-webkit-scrollbar-track {
+        background: rgba(217, 249, 255, 0);
+      }
+
+      /*捲軸尚未滑到的軌道*/
+      ::-webkit-scrollbar-track-piece {
+        background: rgba(217, 249, 255, 0.1);
+      }
+
+      /* 滑動的區塊 */
+      ::-webkit-scrol lbar-thumb {
+        background: rgba(126, 213, 241, 0.1);
+        border-radius: 2.5px;
+      }
+
+      /* 滑鼠移到滑動的區塊上 */
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(138, 243, 255, 0.6);
+        border-radius: 2.5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="calculator center calculator-color">
+
+        <table>
+
+          <div colspan="4" class="firstsecond-hight font-size-ten TOP">CALCULATOR</div>
+          <div colspan="4" class="firstsecond-hight font-size-twenty TOP answer">0</div>
+          <div colspan="4" class="formula TOP">0</div>
+
+          <!-- 打字區 -->
+          <tr>
+            <td>C</td>
+            <td>±</td>
+            <td>★</td>
+            <td style="font-size:medium;">/</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td style="font-size:xx-large; padding:10px 0 0 0; box-sizing: border-box;">*</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>+</td>
+          </tr>
+          <tr>
+            <td colspan="2">0</td>
+
+            <td>.</td>
+            <td>=</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      const calculator = document.querySelector('.calculator')
+      const answer = document.querySelector('.answer')
+      const formula = document.querySelector('.formula')
+
+
+    // 點擊觸發
+    const tds = document.querySelectorAll("td")
+
+    for (let j = 0; j < tds.length; j++) {
+
+      tds[j].onclick = function () {
+        // 正負數判斷
+        let formulaSign = Math.sign(formula.innerText)
+
+        /*  當 C ± % = 被按壓時 --------------------  */
+        if (tds[j].innerText == 'C') {
+          // 'C' 被按  formula 跟 answer 裡面的數字變成0
+          formula.innerText = '0'
+          answer.innerText = '0'
+
+        } else if (tds[j].innerText == '=') {
+          // '=' 被按就計算
+          formula.innerText = eval(formula.innerText)
+
+        } else if (tds[j].innerText == '±') {
+          // 按下±時候 formula是負數，就把formula 變成絕對值
+          if(formulaSign == '-1'){
+            formula.innerText = Math.abs(formula.innerText)
+            answer.innerText = formula.innerText
+          }else{
+            formula.innerText =eval( '-' + formula.innerText)
+            answer.innerText = formula.innerText
+          }
+
+          /* 特殊功能★ */
+        } else if (tds[j].innerText == '★') {
+          calculator.classList.toggle("calculator-color");
+        } else {
+
+          // 除了 C ± % =   幾個按鍵以外執行 算式 ------------------------------------
+          // 算式↓
+          if (formula.innerText == '0') {
+            // formula 是 0 就 取代文字
+            formula.innerText = tds[j].innerText
+            console.log(formula.innerText)
+
+          } else {
+            formula.innerText = formula.innerText + tds[j].innerText
+            // formula.insertAdjacentHTML("beforeend", this.innerText)
+            console.log(formula.innerText)
+          }
+
+
+          //  答案欄  = 算式總和   answer = eval ( formula.innerText)
+          // answer.innerText = eval(formula.innerText)
+
+          answer.innerText = formula.innerText
+        }
+      }
+    }
+
+
+    /* 鍵盤被壓(被按下)的事件 ---------------------------------- */
+    // event.key   鍵盤按的鍵
+      
+    document.onkeydown = (event) => {
+          // 如果 鍵盤輸入 enter
+      if (event.key == 'Enter') {
+        formula.innerText = eval(formula.innerText)
+        answer.innerText = formula.innerText
+        
+      }
+      else if (!isNaN(parseInt(event.key)) || event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/' || event.key === '.') {
+        if (formula.innerText == "0") {
+          formula.innerText = event.key
+        } else {
+    			// formula.insertAdjacentHTML("beforeend", event.key)
+          formula.innerText = formula.innerText + event.key
+        }
+      }
+      answer.innerText = formula.innerText
+    }
+
+    </script>
+
+  </body>
+
+  </html>
